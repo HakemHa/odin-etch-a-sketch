@@ -14,7 +14,13 @@ const createGrid = (n) => {
     }
     document.querySelectorAll('#container div').forEach(div => {
         div.addEventListener('mouseover', (e)=>{
-            e.target.style.background = 'black';
+            if (!e.target.style.background) {
+                const hue = Math.floor(361*Math.random())
+                e.target.style.background = `hsl(${hue}, 100%, 10%, 1)`;
+            }
+            else {
+                console.log(e.target.style.background);
+            }
     })
     })
 }
