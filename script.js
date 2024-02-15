@@ -1,16 +1,29 @@
 const grid = document.querySelector('#container');
 const sizeInput = document.querySelector("#size-input");
 const loadBtn = document.querySelector("#load-btn");
-const createGrid = (n) => {
-    container.innerHTML = "";
+const loadBtnP = document.querySelector("#load-btn p");
+const progressBtn = document.querySelector("#progress-btn");
+async function sleep() {
+    return new Promise((resolve) => setTimeout(resolve, 0));
+}
+const createGrid = async (n) => {
     if (parseFloat(n) !== parseInt(n)) {
         alert("The number must be an integer.");
         return;
     }
+    container.innerHTML = "";
+    loadBtn.style.cursor = 'wait';
     n = parseInt(n);
     const width = 100/n;
+    let p = 0;
     for(let i=0;i<n*n;i++) {
         container.innerHTML += `<div style="width:${width}%"></div>`;
+        p += 1/(n*n);
+        window.requestAnimationFrame(()=>{
+            loadBtn.style.width = `${(1-p)*100}%`;
+            loadBtnP.style.right = `${(4450)/((1-p)*100)}%`
+        });
+        await sleep();
     }
     document.querySelectorAll('#container div').forEach(div => {
         div.addEventListener('mouseover', (e)=>{
@@ -41,11 +54,16 @@ const createGrid = (n) => {
                 else if (cmax === b) {
                     h = 60*(((r-g)/d)+4);
                 }
-                console.log([r,g,b],h, l, s);
                 e.target.style.background = `hsl(${h}, 100%, ${Math.max(0, l-0.1)*100}%, 1)`;
             }
     })
     })
+    sizeInput.value = "";
+    loadBtn.style.width = '100%';
+    loadBtn.style.cursor = 'pointer';
+    loadBtnP.style.right = `44.5%`
 }
 createGrid(16);
-loadBtn.addEventListener('click', ()=>createGrid(sizeInput.value));
+loadBtn.addEventListener('click', ()=>{
+    createGrid(sizeInput.value); 
+});

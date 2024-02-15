@@ -35,5 +35,37 @@ label {
 }
 
 button {
-    width: 88.4%;
+    width: 100%;
+    border: none;
+}
+
+#button-div {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    margin-top: 5px;
+    cursor: wait;
+}
+
+#progress-btn {
+    color: white;
+    background: #09ff00;
+    position: absolute;
+    top: -0%;
+    left: -0%;
+    width: 100%;
+    z-index: -1;
+    cursor: wait;
+}
+
+#load-btn {
+    width: 100%;
+    text-align: right;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#load-btn p {
+    position: relative;
+    right: 44.5%;
 }
