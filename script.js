@@ -16,10 +16,33 @@ const createGrid = (n) => {
         div.addEventListener('mouseover', (e)=>{
             if (!e.target.style.background) {
                 const hue = Math.floor(361*Math.random())
-                e.target.style.background = `hsl(${hue}, 100%, 10%, 1)`;
+                e.target.style.background = `hsl(${hue}, 100%, 90%, 1)`;
             }
             else {
-                console.log(e.target.style.background);
+                let rgb = e.target.style.background;
+                rgb = rgb.substring(4, rgb.length-1).replace(" ", "").split(',').map(e=>parseInt(e));
+                const r = rgb[0]/255; const g = rgb[1]/255; const b = rgb[2]/255;
+                const cmax = Math.max(r, g, b);
+                const cmin = Math.min(r, g, b);
+                const d = cmax-cmin;
+                let h;
+                let l = (cmax+cmin)/2;
+                let s = d/(1-Math.abs(2*l-1));
+                if (d === 0) {
+                    h = 0;
+                    s = 0;
+                }
+                else if (cmax === r) {
+                    h = 60*(((g-b)/d)%6);
+                }
+                else if (cmax === g) {
+                    h = 60*(((b-r)/d)+2);
+                }
+                else if (cmax === b) {
+                    h = 60*(((r-g)/d)+4);
+                }
+                console.log([r,g,b],h, l, s);
+                e.target.style.background = `hsl(${h}, 100%, ${Math.max(0, l-0.1)*100}%, 1)`;
             }
     })
     })
