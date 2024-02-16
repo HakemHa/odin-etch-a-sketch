@@ -20,8 +20,10 @@ const createGrid = async (n) => {
         container.innerHTML += `<div style="width:${width}%"></div>`;
         p += 1/(n*n);
         window.requestAnimationFrame(()=>{
-            loadBtn.style.width = `${(1-p)*100}%`;
-            loadBtnP.style.right = `${(4450)/((1-p)*100)}%`
+            if (loadBtn.style.cursor !== 'pointer') {
+                loadBtn.style.width = `${(1-p)*100}%`;
+                loadBtnP.style.right = `${(4450)/((1-p)*100)}%`
+            }
         });
         await sleep();
     }
@@ -61,9 +63,9 @@ const createGrid = async (n) => {
     sizeInput.value = "";
     loadBtn.style.width = '100%';
     loadBtn.style.cursor = 'pointer';
-    loadBtnP.style.right = `44.5%`
+    loadBtnP.style.right = `44.5%`;
 }
 createGrid(16);
 loadBtn.addEventListener('click', ()=>{
-    createGrid(sizeInput.value); 
+    createGrid(sizeInput.value);
 });
